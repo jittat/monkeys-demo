@@ -16,7 +16,10 @@ class MonkeyGame(ttk.Frame):
             width=CANVAS_WIDTH, height=CANVAS_HEIGHT, highlightthickness=0)
         self.canvas.grid(sticky="news")
 
- 
+        self.banana_image = tk.PhotoImage(file='banana.png')
+        self.banana = self.canvas.create_image(100, 100, image=self.banana_image)
+
+
 if __name__ == "__main__":
     root = tk.Tk()
     root.title("Monkey Game")
