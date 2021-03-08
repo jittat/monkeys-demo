@@ -9,7 +9,7 @@ UPDATE_DELAY = 33
 GRAVITY = 1
 
 class Banana(Sprite):
-    def init_sprite(self):
+    def init_element(self):
         self.vx = 0
         self.vy = 0
 
@@ -63,13 +63,13 @@ class MonkeyGame(GameApp):
         self.monkey = Sprite(self, 'monkey.png', 100, 400)
         self.enemy = Sprite(self, 'monkey.png', 700, 400)
 
-        self.sprites.append(self.banana)
-        self.sprites.append(self.monkey)
-        self.sprites.append(self.enemy)
+        self.elements.append(self.banana)
+        self.elements.append(self.monkey)
+        self.elements.append(self.enemy)
 
         self.speed_text = Text(self, 'Speed: XX', 40, 20)
         
-        self.sprites.append(self.speed_text)
+        self.elements.append(self.speed_text)
 
     def update_speed_text(self):
         self.speed_text.set_text(f'Speed: {self.speed}')

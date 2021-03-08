@@ -1,54 +1,16 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
-class Text():
-    def __init__(self, game_app, text, x=0, y=0):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.canvas = game_app.canvas
-
-        self.init_canvas_object()    
-        self.init_element()
-
-    def init_canvas_object(self):
-        self.canvas_object_id = self.canvas.create_text(
-            self.x, 
-            self.y,
-            text=self.text)
-
-    def set_text(self, text):
-        self.text = text
-        self.canvas.itemconfigure(self.canvas_object_id, text=text)
-        
-    def render(self):
-        self.canvas.coords(self.canvas_object_id, self.x, self.y)
-
-    def init_element(self):
-        pass
-
-    def update(self):
-        pass
-    
-
-class Sprite():
-    def __init__(self, game_app, image_filename, x=0, y=0):
-        self.image_filename = image_filename
+class GameCanvasElement():
+    def __init__(self, game_app, x=0, y=0):
         self.x = x
         self.y = y
         self.canvas = game_app.canvas
 
         self.is_visible = True
 
-        self.init_canvas_object()    
-        self.init_sprite()
-
-    def init_canvas_object(self):
-        self.photo_image = tk.PhotoImage(file=self.image_filename)
-        self.canvas_object_id = self.canvas.create_image(
-            self.x, 
-            self.y,
-            image=self.photo_image)
+        self.init_canvas_object()
+        self.init_element()
 
     def show(self):
         self.is_visible = True
@@ -62,11 +24,42 @@ class Sprite():
         if self.is_visible:
             self.canvas.coords(self.canvas_object_id, self.x, self.y)
 
-    def init_sprite(self):
+    def init_canvas_object(self):
+        pass
+
+    def init_element(self):
         pass
 
     def update(self):
         pass
+
+class Text(GameCanvasElement):
+    def __init__(self, game_app, text, x=0, y=0):
+        self.text = text
+        super().__init__(game_app, x, y)
+
+    def init_canvas_object(self):
+        self.canvas_object_id = self.canvas.create_text(
+            self.x, 
+            self.y,
+            text=self.text)
+
+    def set_text(self, text):
+        self.text = text
+        self.canvas.itemconfigure(self.canvas_object_id, text=text)
+        
+
+class Sprite(GameCanvasElement):
+    def __init__(self, game_app, image_filename, x=0, y=0):
+        self.image_filename = image_filename
+        super().__init__(game_app, x, y)
+
+    def init_canvas_object(self):
+        self.photo_image = tk.PhotoImage(file=self.image_filename)
+        self.canvas_object_id = self.canvas.create_image(
+            self.x, 
+            self.y,
+            image=self.photo_image)
 
 
 class GameApp(ttk.Frame): 
@@ -82,7 +75,7 @@ class GameApp(ttk.Frame):
         self.grid(sticky="news")
         self.create_canvas()
 
-        self.sprites = []
+        self.elements = []
         self.init_game()
 
         self.parent.bind('<KeyPress>', self.on_key_pressed)
@@ -95,9 +88,9 @@ class GameApp(ttk.Frame):
         self.canvas.grid(sticky="news")
 
     def animate(self):
-        for sprite in self.sprites:
-            sprite.update()
-            sprite.render()
+        for element in self.elements:
+            element.update()
+            element.render()
 
         self.after(self.update_delay, self.animate)
 
