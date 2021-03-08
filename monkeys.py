@@ -15,6 +15,8 @@ class Banana(Sprite):
 
         self.start_x = self.x
         self.start_y = self.y
+        self.start_vx = 0
+        self.start_vy = 0
 
         self.is_moving = False
         self.hide()
@@ -23,18 +25,30 @@ class Banana(Sprite):
         self.vx = vx
         self.vy = vy
 
+        self.start_vx = vx
+        self.start_vy = vy
+
     def update(self):
         if self.is_moving:
             self.x += 5
             self.y -= self.vy
             self.vy -= GRAVITY
 
+            if self.y > CANVAS_HEIGHT:
+                self.stop()
+                self.hide()
+
     def reset(self):
         self.x = self.start_x
         self.y = self.start_y
+
+        self.vx = self.start_vx
+        self.vy = self.start_vy
+
         self.stop()
 
     def start(self):
+        self.show()
         self.is_moving = True
 
     def stop(self):
@@ -55,6 +69,12 @@ class MonkeyGame(GameApp):
 
     def init_game(self):
         self.create_sprites()
+
+    def on_key_pressed(self, event):
+        if event.char == ' ':
+            if not self.banana.is_moving:
+                self.banana.reset()
+                self.banana.start()
 
 
 if __name__ == "__main__":
