@@ -39,10 +39,24 @@ class MonkeyGame(GameApp):
         
         self.sprites.append(self.speed_text)
 
+    def update_speed_text(self):
+        self.speed_text.set_text(f'Speed: {self.speed}')
+        
     def init_game(self):
         self.create_sprites()
 
         self.speed = 3
+        self.update_speed_text()
+
+    def on_key_pressed(self, event):
+        if event.char == '+':
+            if self.speed < 10:
+                self.speed += 1
+                self.update_speed_text()
+        elif event.char == '-':
+            if self.speed > 1:
+                self.speed -= 1
+                self.update_speed_text()
 
 if __name__ == "__main__":
     root = tk.Tk()
