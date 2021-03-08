@@ -1,66 +1,12 @@
 import tkinter as tk
-import tkinter.ttk as ttk
- 
+
+from gamelib import Sprite, GameApp
+
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 500
 
 UPDATE_DELAY = 33
 GRAVITY = 1
-
-class Sprite():
-    def __init__(self, canvas, image_filename, x=0, y=0):
-        self.image_filename = image_filename
-        self.x = x
-        self.y = y
-        self.canvas = canvas
-
-        self.init_canvas_object()    
-        self.init_sprite()
-
-    def init_canvas_object(self):
-        self.photo_image = tk.PhotoImage(file=self.image_filename)
-        self.canvas_object_id = self.canvas.create_image(
-            self.x, 
-            self.y,
-            image=self.photo_image)
-
-    def render(self):
-        self.canvas.coords(self.canvas_object_id, self.x, self.y)
-
-    def init_sprite(self):
-        pass
-
-    def update(self):
-        pass
-
-
-class GameApp(ttk.Frame): 
-    def __init__(self, parent):
-        super().__init__(parent)
-        self.grid(sticky="news")
-        self.create_canvas()
-
-        self.sprites = []
-        self.init_game()
-
-    def create_canvas(self):
-        self.canvas = tk.Canvas(self, borderwidth=0,
-            width=CANVAS_WIDTH, height=CANVAS_HEIGHT, highlightthickness=0)
-        self.canvas.grid(sticky="news")
-
-    def animate(self):
-        for sprite in self.sprites:
-            sprite.update()
-            sprite.render()
-
-        self.after(UPDATE_DELAY, self.animate)
-
-    def start(self):
-        self.after(0, self.animate)
-
-    def init_game(self):
-        pass
-
 
 class Banana(Sprite):
     def init_sprite(self):
@@ -79,14 +25,13 @@ class Banana(Sprite):
 
 class MonkeyGame(GameApp):
     def create_sprites(self):
-        self.banana = Banana(self.canvas, 'banana.png', 100, 400)
+        self.banana = Banana(self, 'banana.png', 100, 400)
         self.banana.set_speed(15, 25)
 
-        self.monkey = Sprite(self.canvas, 'monkey.png', 100, 400)
+        self.monkey = Sprite(self, 'monkey.png', 100, 400)
 
         self.sprites.append(self.banana)
         self.sprites.append(self.monkey)
-
 
     def init_game(self):
         self.create_sprites()
@@ -98,6 +43,6 @@ if __name__ == "__main__":
  
     # do not allow window resizing
     root.resizable(False, False)
-    app = MonkeyGame(root)
+    app = MonkeyGame(root, CANVAS_WIDTH, CANVAS_HEIGHT, UPDATE_DELAY)
     app.start()
     root.mainloop()
