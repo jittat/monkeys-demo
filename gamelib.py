@@ -61,6 +61,8 @@ class Sprite():
 class GameApp(ttk.Frame): 
     def __init__(self, parent, canvas_width=800, canvas_height=500, update_delay=33):
         super().__init__(parent)
+        self.parent = parent
+        
         self.canvas_width = canvas_width
         self.canvas_height = canvas_height
         
@@ -72,6 +74,9 @@ class GameApp(ttk.Frame):
         self.sprites = []
         self.init_game()
 
+        self.parent.bind('<KeyPress>', self.on_key_pressed)
+        self.parent.bind('<KeyRelease>', self.on_key_released)
+        
     def create_canvas(self):
         self.canvas = tk.Canvas(self, borderwidth=0,
             width=self.canvas_width, height=self.canvas_height, 
@@ -91,4 +96,8 @@ class GameApp(ttk.Frame):
     def init_game(self):
         pass
 
+    def on_key_pressed(self, event):
+        pass
 
+    def on_key_released(self, event):
+        pass
