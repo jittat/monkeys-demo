@@ -13,14 +13,46 @@ class Banana(Sprite):
         self.vx = 0
         self.vy = 0
 
+        self.start_x = self.x
+        self.start_y = self.y
+        self.start_vx = 0
+        self.start_vy = 0
+
+        self.is_moving = False
+        self.hide()
+
     def set_speed(self, vx, vy):
         self.vx = vx
         self.vy = vy
 
+        self.start_vx = vx
+        self.start_vy = vy
+
     def update(self):
-        self.x += 5
-        self.y -= self.vy
-        self.vy -= GRAVITY
+        if self.is_moving:
+            self.x += 5
+            self.y -= self.vy
+            self.vy -= GRAVITY
+
+            if self.y > CANVAS_HEIGHT:
+                self.stop()
+                self.hide()
+
+    def reset(self):
+        self.x = self.start_x
+        self.y = self.start_y
+
+        self.vx = self.start_vx
+        self.vy = self.start_vy
+
+        self.stop()
+
+    def start(self):
+        self.show()
+        self.is_moving = True
+
+    def stop(self):
+        self.is_moving = False
 
 
 class MonkeyGame(GameApp):
@@ -53,10 +85,17 @@ class MonkeyGame(GameApp):
             if self.speed < 10:
                 self.speed += 1
                 self.update_speed_text()
-        elif event.char == '-':
+                
+        if event.char == '-':
             if self.speed > 1:
                 self.speed -= 1
                 self.update_speed_text()
+
+        if event.char == ' ':
+            if not self.banana.is_moving:
+                self.banana.reset()
+                self.banana.start()
+
 
 if __name__ == "__main__":
     root = tk.Tk()
