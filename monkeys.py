@@ -82,10 +82,14 @@ class MonkeyGame(GameApp):
         self.banana = Banana(self.canvas, 'banana.png', 100, 400)
         self.banana.set_speed(15, 25)
 
-    def init_game(self):
-        self.create_sprites()
+        self.monkey = Sprite(self.canvas, 'monkey.png', 100, 400)
 
         self.sprites.append(self.banana)
+        self.sprites.append(self.monkey)
+
+
+    def init_game(self):
+        self.create_sprites()
 
 
 if __name__ == "__main__":
