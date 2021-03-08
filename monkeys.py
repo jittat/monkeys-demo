@@ -13,14 +13,32 @@ class Banana(Sprite):
         self.vx = 0
         self.vy = 0
 
+        self.start_x = self.x
+        self.start_y = self.y
+
+        self.is_moving = False
+        self.hide()
+
     def set_speed(self, vx, vy):
         self.vx = vx
         self.vy = vy
 
     def update(self):
-        self.x += 5
-        self.y -= self.vy
-        self.vy -= GRAVITY
+        if self.is_moving:
+            self.x += 5
+            self.y -= self.vy
+            self.vy -= GRAVITY
+
+    def reset(self):
+        self.x = self.start_x
+        self.y = self.start_y
+        self.stop()
+
+    def start(self):
+        self.is_moving = True
+
+    def stop(self):
+        self.is_moving = False
 
 
 class MonkeyGame(GameApp):
