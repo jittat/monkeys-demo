@@ -93,6 +93,7 @@ class MonkeyGame(GameApp):
 
         if event.char == ' ':
             if not self.banana.is_moving:
+                self.banana.set_speed(3 * self.speed, 5 * self.speed)
                 self.banana.reset()
                 self.banana.start()
 
