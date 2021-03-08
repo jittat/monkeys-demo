@@ -1,6 +1,6 @@
 import tkinter as tk
 
-from gamelib import Sprite, GameApp
+from gamelib import Sprite, GameApp, Text
 
 CANVAS_WIDTH = 800
 CANVAS_HEIGHT = 500
@@ -35,9 +35,14 @@ class MonkeyGame(GameApp):
         self.sprites.append(self.monkey)
         self.sprites.append(self.enemy)
 
+        self.speed_text = Text(self, 'Speed: XX', 40, 20)
+        
+        self.sprites.append(self.speed_text)
+
     def init_game(self):
         self.create_sprites()
 
+        self.speed = 3
 
 if __name__ == "__main__":
     root = tk.Tk()

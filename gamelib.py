@@ -1,6 +1,36 @@
 import tkinter as tk
 import tkinter.ttk as ttk
 
+class Text():
+    def __init__(self, game_app, text, x=0, y=0):
+        self.text = text
+        self.x = x
+        self.y = y
+        self.canvas = game_app.canvas
+
+        self.init_canvas_object()    
+        self.init_element()
+
+    def init_canvas_object(self):
+        self.canvas_object_id = self.canvas.create_text(
+            self.x, 
+            self.y,
+            text=self.text)
+
+    def set_text(self, text):
+        self.text = text
+        self.canvas.itemconfigure(self.canvas_object_id, text=text)
+        
+    def render(self):
+        self.canvas.coords(self.canvas_object_id, self.x, self.y)
+
+    def init_element(self):
+        pass
+
+    def update(self):
+        pass
+    
+
 class Sprite():
     def __init__(self, game_app, image_filename, x=0, y=0):
         self.image_filename = image_filename
